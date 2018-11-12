@@ -183,7 +183,7 @@ def process_bounce(message, notification):
         if 'remoteMtaIp' in bounce:
             print(bounce)
             b.remote_mta_ip = bounce['remoteMtaIp']
-        b.json_message = message
+        b.json_message = json.dumps(message)
         b.save()
         bounces += [b,]
 
@@ -230,7 +230,7 @@ def process_complaint(message, notification):
         if 'commonHeaders' in mail:
             if 'messageId' in mail['commonHeaders']:
                 c.mail_messageid = mail['commonHeaders']['messageId']
-        c.json_message = message
+        c.json_message = json.dumps(message)
         c.save()
         complaints += [c,]
 
@@ -278,7 +278,7 @@ def process_delivery(message, notification):
                 d.mail_messageid = mail['commonHeaders']['messageId']
         if 'remoteMtaIp' in delivery:
             d.remote_mta_ip = delivery['remoteMtaIp']
-        d.json_message = message
+        d.json_message = json.dumps(message)
         d.save()
 
         deliveries += [d,]

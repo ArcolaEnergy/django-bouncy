@@ -332,7 +332,9 @@ class ProcessBounceTest(BouncyTestCase):
         self.assertTrue(b.remote_mta_ip == None)
         self.assertTrue(b.mail_messageid ==
             "<20181111063913.7188.14950@ip-172-31-0-115.eu-west-2.compute.internal>")
-
+        j = b.json_message
+        data = json.loads(j)
+        self.assertTrue('mail' in data)
 
 class ProcessComplaintTest(BouncyTestCase):
     """Test the process_complaint function"""
@@ -475,6 +477,10 @@ class ProcessDeliveryTest(BouncyTestCase):
 
         print(d)
         print(d.__unicode__())
+
+        j = d.json_message
+        data = json.loads(j)
+        self.assertTrue('mail' in data)
 
         self.assertTrue(Delivery.objects.filter(
             sns_topic='arn:aws:sns:us-east-1:674400795651:Bouncy_Test',
