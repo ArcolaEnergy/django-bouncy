@@ -1,0 +1,79 @@
+{
+   "bounce" : {
+      "timestamp" : "2018-11-11T06:39:13.840Z",
+      "bounceType" : "Permanent",
+      "bouncedRecipients" : [
+         {
+            "action" : "failed",
+            "status" : "5.1.1",
+            "emailAddress" : "alert@example.com",
+            "diagnosticCode" : "Amazon SES has suppressed sending to this address because it has a recent history of bouncing as an invalid address. For more information about how to remove an address from the suppression list, see the Amazon SES Developer Guide: http://docs.aws.amazon.com/ses/latest/DeveloperGuide/remove-from-suppressionlist.html "
+         }
+      ],
+      "bounceSubType" : "Suppressed",
+      "feedbackId" : "01020167017ee989-49e3d28b-1d5c-4f17-a453-284d6f60cdd6-000000",
+      "reportingMTA" : "dns; amazonses.com"
+   },
+   "notificationType" : "Bounce",
+   "mail" : {
+      "sourceIp" : "35.177.218.44",
+      "commonHeaders" : {
+         "date" : "Sun, 11 Nov 2018 06:39:13 -0000",
+         "from" : [
+            "noreply@source.com"
+         ],
+         "subject" : "Alert from a thing.",
+         "to" : [
+            "alert@example.com"
+         ],
+         "messageId" : "<20181111063913.7188.14950@ip-172-31-0-115.eu-west-2.compute.internal>"
+      },
+      "destination" : [
+         "alert@example.com"
+      ],
+      "headers" : [
+         {
+            "value" : "from ip-172-31-0-115.eu-west-2.compute.internal (ec2-35-177-218-44.eu-west-2.compute.amazonaws.com [35.177.218.44]) by email-smtp.amazonaws.com with SMTP (SimpleEmailService-3892014521) id hJ8AB8890vJ4kRaFW7Wx for alert@example.com; Sun, 11 Nov 2018 06:39:13 +0000 (UTC)",
+            "name" : "Received"
+         },
+         {
+            "value" : "text/plain; charset=\"utf-8\"",
+            "name" : "Content-Type"
+         },
+         {
+            "name" : "MIME-Version",
+            "value" : "1.0"
+         },
+         {
+            "name" : "Content-Transfer-Encoding",
+            "value" : "7bit"
+         },
+         {
+            "name" : "Subject",
+            "value" : "Alert from a thing."
+         },
+         {
+            "name" : "From",
+            "value" : "noreply@source.com"
+         },
+         {
+            "value" : "alert@example.com",
+            "name" : "To"
+         },
+         {
+            "value" : "Sun, 11 Nov 2018 06:39:13 -0000",
+            "name" : "Date"
+         },
+         {
+            "name" : "Message-ID",
+            "value" : "<20181111063913.7188.14950@ip-172-31-0-115.eu-west-2.compute.internal>"
+         }
+      ],
+      "messageId" : "01020167017ee8fb-7a5c91c1-4181-4229-8e09-a0eaf83f85e7-000000",
+      "sourceArn" : "arn:aws:ses:eu-west-1:185258581268:identity/noreply@source.com",
+      "sendingAccountId" : "185258581268",
+      "timestamp" : "2018-11-11T06:39:13.000Z",
+      "source" : "noreply@source.com",
+      "headersTruncated" : false
+   }
+}

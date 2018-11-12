@@ -260,6 +260,79 @@ class ProcessBounceTest(BouncyTestCase):
             diagnostic_code='smtp; 550 user unknown'
         ).exists())
 
+    def test_correct_bounces_created_with_messageid(self):
+        """Test to ensure that email MessageID's get to the right place"""
+        # Delete any existing bounces
+        Bounce.objects.all().delete()
+
+        bounce_w_mid = loader("bounce_with_mid")
+        notification = loader("bounce_with_mid_notification")
+
+        result = views.process_bounce(bounce_w_mid, notification)
+
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.content.decode('ascii'), 'Bounce Processed')
+
+        b = Bounce.objects.all()[0]
+        print(b.__unicode__())
+
+        self.assertTrue(Bounce.objects.filter(
+            sns_topic=('arn:aws:sns:us-east-1:250214102493:'
+                       'Demo_App_Unsubscribes'),
+            sns_messageid='f34c6922-c3a1-54a1-bd88-23f998b43978',
+            mail_timestamp=clean_time('2018-11-10T12:29:05.000Z'),
+            mail_id=('01020166fd98ddcf-27a83a0c-6987-4f0c-ac40-c9037722b0d4-000000'),
+            mail_from='noreply@source.com',
+            address='alert@example.com',
+            feedback_id=('01020166fd995209-af42d13b-38ce-40d5-bdfa-5c02afafbca1-000000'),
+            feedback_timestamp=clean_time('2018-11-10T12:29:35.670Z'),
+            hard=True,
+            bounce_type='Permanent',
+            bounce_subtype='General',
+            reporting_mta='dsn; a7-33.smtp-out.eu-west-1.amazonses.com',
+            action='failed',
+            status='5.3.0',
+            diagnostic_code='smtp; 550 Requested action not taken: mailbox unavailable'
+        ).exists())
+
+        self.assertTrue(b.remote_mta_ip == "1.3.4.4")
+        self.assertTrue(b.mail_messageid ==
+            "<20181110122905.7188.71043@ip-172-31-0-115.eu-west-2.compute.internal>")
+
+    def test_suppressed_bounce_with_messageid(self):
+        """Test to ensure that email MessageID's get to the right place"""
+        # Delete any existing bounces
+        Bounce.objects.all().delete()
+
+        bounce_w_mid = loader("suppressed_bounce_with_mid")
+        notification = loader("bounce_with_mid_notification")
+
+        result = views.process_bounce(bounce_w_mid, notification)
+
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.content.decode('ascii'), 'Bounce Processed')
+
+        b = Bounce.objects.all()[0]
+
+        self.assertTrue(Bounce.objects.filter(
+            sns_topic=('arn:aws:sns:us-east-1:250214102493:'
+                       'Demo_App_Unsubscribes'),
+            sns_messageid='f34c6922-c3a1-54a1-bd88-23f998b43978',
+            mail_id=('01020167017ee8fb-7a5c91c1-4181-4229-8e09-a0eaf83f85e7-000000'),
+            mail_from='noreply@source.com',
+            address='alert@example.com',
+            hard=True,
+            bounce_type='Permanent',
+            bounce_subtype='Suppressed',
+            reporting_mta='dns; amazonses.com',
+            action='failed',
+            status='5.1.1',
+        ).exists())
+
+        self.assertTrue(b.remote_mta_ip == None)
+        self.assertTrue(b.mail_messageid ==
+            "<20181111063913.7188.14950@ip-172-31-0-115.eu-west-2.compute.internal>")
+
 
 class ProcessComplaintTest(BouncyTestCase):
     """Test the process_complaint function"""
@@ -384,4 +457,34 @@ class ProcessDeliveryTest(BouncyTestCase):
             delivered_time=clean_time('2014-05-28T22:41:01.184Z'),
             processing_time=546,
             smtp_response='250 ok:  Message 64111812 accepted'
+        ).exists())
+
+    def test_correct_delivery_extended_created(self):
+        """Test that the correct delivery was created with extra info"""
+        Delivery.objects.all().delete()
+
+        delivery_w_extras = loader("delivery_withextras")
+
+        result = views.process_delivery(
+            delivery_w_extras, self.delivery_notification)
+
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.content.decode('ascii'), 'Delivery Processed')
+
+        d = Delivery.objects.all()[0]
+
+        print(d)
+        print(d.__unicode__())
+
+        self.assertTrue(Delivery.objects.filter(
+            sns_topic='arn:aws:sns:us-east-1:674400795651:Bouncy_Test',
+            sns_messageid='fbdf2eda-c5ed-5096-a8d7-61a043f7db6e',
+            mail_id='01020165d308d892-5f68b187-6c4d-4ef9-a9e3-94d2c36e99f0-000000',
+            mail_from='noreply@source.com',
+            address='alert@example.com',
+            # delivery
+            processing_time=1832,
+            smtp_response='250 Requested mail action okay, completed',
+            remote_mta_ip='82.68.143.173',
+            mail_messageid='<20180913130456.17824.30471@ip-172-31-0-115.eu-west-2.compute.internal>'
         ).exists())

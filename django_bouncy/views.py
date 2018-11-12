@@ -159,7 +159,7 @@ def process_bounce(message, notification):
     bounces = []
     for recipient in bounce['bouncedRecipients']:
         # Create each bounce record. Add to a list for reference later.
-        bounces += [Bounce.objects.create(
+        b = Bounce.objects.create(
             sns_topic=notification['TopicArn'],
             sns_messageid=notification['MessageId'],
             mail_timestamp=clean_time(mail['timestamp']),
@@ -175,7 +175,17 @@ def process_bounce(message, notification):
             action=recipient.get('action'),
             status=recipient.get('status'),
             diagnostic_code=recipient.get('diagnosticCode')
-        )]
+        )
+        if 'commonHeaders' in mail:
+            if 'messageId' in mail['commonHeaders']:
+                print(mail['commonHeaders'])
+                b.mail_messageid = mail['commonHeaders']['messageId']
+        if 'remoteMtaIp' in bounce:
+            print(bounce)
+            b.remote_mta_ip = bounce['remoteMtaIp']
+        b.json_message = message
+        b.save()
+        bounces += [b,]
 
     # Send signals for each bounce.
     for bounce in bounces:
@@ -204,7 +214,7 @@ def process_complaint(message, notification):
     complaints = []
     for recipient in complaint['complainedRecipients']:
         # Create each Complaint. Save in a list for reference later.
-        complaints += [Complaint.objects.create(
+        c = Complaint.objects.create(
             sns_topic=notification['TopicArn'],
             sns_messageid=notification['MessageId'],
             mail_timestamp=clean_time(mail['timestamp']),
@@ -216,7 +226,13 @@ def process_complaint(message, notification):
             useragent=complaint.get('userAgent'),
             feedback_type=complaint.get('complaintFeedbackType'),
             arrival_date=arrival_date
-        )]
+        )
+        if 'commonHeaders' in mail:
+            if 'messageId' in mail['commonHeaders']:
+                c.mail_messageid = mail['commonHeaders']['messageId']
+        c.json_message = message
+        c.save()
+        complaints += [c,]
 
     # Send signals for each complaint.
     for complaint in complaints:
@@ -244,8 +260,8 @@ def process_delivery(message, notification):
 
     deliveries = []
     for eachrecipient in delivery['recipients']:
-        # Create each delivery 
-        deliveries += [Delivery.objects.create(
+        # Create each delivery
+        d = Delivery.objects.create(
             sns_topic=notification['TopicArn'],
             sns_messageid=notification['MessageId'],
             mail_timestamp=clean_time(mail['timestamp']),
@@ -256,7 +272,16 @@ def process_delivery(message, notification):
             delivered_time=delivered_datetime,
             processing_time=int(delivery['processingTimeMillis']),
             smtp_response=delivery['smtpResponse']
-        )]
+        )
+        if 'commonHeaders' in mail:
+            if 'messageId' in mail['commonHeaders']:
+                d.mail_messageid = mail['commonHeaders']['messageId']
+        if 'remoteMtaIp' in delivery:
+            d.remote_mta_ip = delivery['remoteMtaIp']
+        d.json_message = message
+        d.save()
+
+        deliveries += [d,]
 
     # Send signals for each delivery.
     for eachdelivery in deliveries:

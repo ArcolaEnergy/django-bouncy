@@ -1,0 +1,80 @@
+{
+   "notificationType" : "Bounce",
+   "bounce" : {
+      "reportingMTA" : "dsn; a7-33.smtp-out.eu-west-1.amazonses.com",
+      "bounceSubType" : "General",
+      "remoteMtaIp" : "1.3.4.4",
+      "bounceType" : "Permanent",
+      "bouncedRecipients" : [
+         {
+            "emailAddress" : "alert@example.com",
+            "action" : "failed",
+            "status" : "5.3.0",
+            "diagnosticCode" : "smtp; 550 Requested action not taken: mailbox unavailable"
+         }
+      ],
+      "feedbackId" : "01020166fd995209-af42d13b-38ce-40d5-bdfa-5c02afafbca1-000000",
+      "timestamp" : "2018-11-10T12:29:35.670Z"
+   },
+   "mail" : {
+      "timestamp" : "2018-11-10T12:29:05.000Z",
+      "sourceArn" : "arn:aws:ses:eu-west-1:185258581268:identity/noreply@source.com",
+      "source" : "noreply@source.com",
+      "headersTruncated" : false,
+      "destination" : [
+         "alert@example.com"
+      ],
+      "headers" : [
+         {
+            "name" : "Received",
+            "value" : "from ip-172-31-0-115.eu-west-2.compute.internal (ec2-35-177-218-44.eu-west-2.compute.amazonaws.com [35.177.218.44]) by email-smtp.amazonaws.com with SMTP (SimpleEmailService-3862038527) id 46veRO7GGPbFRIhL2Eeu for alert@example.com; Sat, 10 Nov 2018 12:29:05 +0000 (UTC)"
+         },
+         {
+            "value" : "text/plain; charset=\"utf-8\"",
+            "name" : "Content-Type"
+         },
+         {
+            "name" : "MIME-Version",
+            "value" : "1.0"
+         },
+         {
+            "name" : "Content-Transfer-Encoding",
+            "value" : "7bit"
+         },
+         {
+            "name" : "Subject",
+            "value" : "Alert from a thing."
+         },
+         {
+            "name" : "From",
+            "value" : "noreply@source.com"
+         },
+         {
+            "value" : "alert@example.com",
+            "name" : "To"
+         },
+         {
+            "value" : "Sat, 10 Nov 2018 12:29:05 -0000",
+            "name" : "Date"
+         },
+         {
+            "value" : "<20181110122905.7188.71043@ip-172-31-0-115.eu-west-2.compute.internal>",
+            "name" : "Message-ID"
+         }
+      ],
+      "messageId" : "01020166fd98ddcf-27a83a0c-6987-4f0c-ac40-c9037722b0d4-000000",
+      "sendingAccountId" : "185258581268",
+      "sourceIp" : "35.177.218.44",
+      "commonHeaders" : {
+         "from" : [
+            "noreply@source.com"
+         ],
+         "date" : "Sat, 10 Nov 2018 12:29:05 -0000",
+         "subject" : "Alert from a thing.",
+         "messageId" : "<20181110122905.7188.71043@ip-172-31-0-115.eu-west-2.compute.internal>",
+         "to" : [
+            "alert@example.com"
+         ]
+      }
+   }
+}

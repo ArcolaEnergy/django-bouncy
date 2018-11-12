@@ -11,11 +11,18 @@ class Feedback(models.Model):
     mail_timestamp = models.DateTimeField()
     mail_id = models.CharField(max_length=100)
     mail_from = models.EmailField()
+    # the value of the Message-ID: header, if it exists.
+    mail_messageid = models.CharField(max_length=350, null=True)
+    # remoteMtaIp
+    remote_mta_ip = models.CharField(max_length=100, null=True)
+
     address = models.EmailField()
     # no feedback for delivery messages
     feedback_id = models.CharField(max_length=100, null=True, blank=True)
     feedback_timestamp = models.DateTimeField(
         verbose_name="Feedback Time", null=True, blank=True)
+    # the whole json blob for this bounce
+    json_message = models.TextField(null=True)
 
     class Meta(object):
         """Meta info for Feedback Abstract Model"""

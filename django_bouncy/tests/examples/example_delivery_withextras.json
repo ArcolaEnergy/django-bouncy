@@ -1,0 +1,74 @@
+{
+   "delivery" : {
+      "recipients" : [
+         "alert@example.com"
+      ],
+      "reportingMTA" : "a7-32.smtp-out.eu-west-1.amazonses.com",
+      "smtpResponse" : "250 Requested mail action okay, completed",
+      "processingTimeMillis" : 1832,
+      "remoteMtaIp" : "82.68.143.173",
+      "timestamp" : "2018-09-13T13:04:58.810Z"
+   },
+   "notificationType" : "Delivery",
+   "mail" : {
+      "headersTruncated" : false,
+      "headers" : [
+         {
+            "name" : "Received",
+            "value" : "from ip-172-31-0-115.eu-west-2.compute.internal (ec2-35-177-218-44.eu-west-2.compute.amazonaws.com [35.177.218.44]) by email-smtp.amazonaws.com with SMTP (SimpleEmailService-3236554995) id 9xrVqgcSyT6nwpGBrIC6 for alert@example.com; Thu, 13 Sep 2018 13:04:56 +0000 (UTC)"
+         },
+         {
+            "name" : "Content-Type",
+            "value" : "text/plain; charset=\"utf-8\""
+         },
+         {
+            "name" : "MIME-Version",
+            "value" : "1.0"
+         },
+         {
+            "value" : "7bit",
+            "name" : "Content-Transfer-Encoding"
+         },
+         {
+            "name" : "Subject",
+            "value" : "Alert from a thing."
+         },
+         {
+            "name" : "From",
+            "value" : "noreply@source.com"
+         },
+         {
+            "value" : "alert@example.com",
+            "name" : "To"
+         },
+         {
+            "value" : "Thu, 13 Sep 2018 13:04:56 -0000",
+            "name" : "Date"
+         },
+         {
+            "name" : "Message-ID",
+            "value" : "<20180913130456.17824.30471@ip-172-31-0-115.eu-west-2.compute.internal>"
+         }
+      ],
+      "messageId" : "01020165d308d892-5f68b187-6c4d-4ef9-a9e3-94d2c36e99f0-000000",
+      "timestamp" : "2018-09-13T13:04:56.978Z",
+      "commonHeaders" : {
+         "to" : [
+            "alert@example.com"
+         ],
+         "messageId" : "<20180913130456.17824.30471@ip-172-31-0-115.eu-west-2.compute.internal>",
+         "from" : [
+            "noreply@source.com"
+         ],
+         "subject" : "Alert from a thing.",
+         "date" : "Thu, 13 Sep 2018 13:04:56 -0000"
+      },
+      "sendingAccountId" : "185258581268",
+      "sourceIp" : "35.177.218.44",
+      "source" : "noreply@source.com",
+      "sourceArn" : "arn:aws:ses:eu-west-1:185258581268:identity/noreply@source.com",
+      "destination" : [
+         "alert@example.com"
+      ]
+   }
+}
